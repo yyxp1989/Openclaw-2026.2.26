@@ -382,6 +382,20 @@ describe("monitorTelegramProvider (grammY)", () => {
     expect(runSpy).toHaveBeenCalledTimes(2);
   });
 
+  it("clears bounded cleanup timers after a clean stop", async () => {
+    vi.useFakeTimers();
+    try {
+      const abort = new AbortController();
+      mockRunOnceAndAbort(abort);
+
+      await monitorTelegramProvider({ token: "tok", abortSignal: abort.signal });
+
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("surfaces non-recoverable errors", async () => {
     runSpy.mockImplementationOnce(() =>
       makeRunnerStub({
