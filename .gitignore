@@ -122,3 +122,5 @@ dist/protocol.schema.json
 **/.stfolder/
 
 .serena/cache/
+
+.serena/cache/
